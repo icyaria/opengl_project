@@ -1,0 +1,71 @@
+ΚΑΠΑΚΗ ΜΑΡΙΑ
+ΑΜ: 1115202100051
+
+Αυτό το πρόγραμμα υλοποιεί Phong φωτισμό σε ένα 3D περιβάλλον με χρήση OpenGL.
+Η σφαίρα φωτίζει το πρόσωπο δυναμικά καθώς περιστρέφεται, και ο χρήστης μπορεί να ελέγξει την κάμερα.
+
+Σε περίπτωση που υπάρξει πρόβλημα με το build, υπάρχει έτοιμο executable στον αντίστοιχο φάκελο.
+
+**Απαιτήσεις**
+Η εργασία έχει υλοποιηθεί σε C++ και είναι απαραίτητα τα παρακάτω:
+- CMake (3.10+)
+- OpenGL
+- g++ ή MinGW (σε Windows)
+
+Σημείωση: Οι Assimp, GLFW και GLM βρίσκονται τοπικά στο project, οπότε δεν χρειάζονται εξωτερική εγκατάσταση.
+
+**Build & Εκτέλεση**
+Πατώντας το "▶ Run" μέσα από **VS Code**, το project θα κάνει build και θα τρέξει αυτόματα.
+
+Εναλλακτικά:
+
+**Windows (MinGW)**
+mkdir -p build
+cd build
+cmake -G "MinGW Makefiles" -DCMAKE_C_COMPILER="C:/msys64/ucrt64/bin/gcc.exe" -DCMAKE_CXX_COMPILER="C:/msys64/ucrt64/bin/g++.exe" ..
+cmake --build . --config Debug
+cd ..
+.\graphics2425_opengl_project.exe  # Εκτέλεση από το root directory!
+
+**Linux**
+mkdir -p build
+cd build
+cmake ..
+make -j$(nproc)
+cd ..
+./graphics2425_opengl_project  # Εκτέλεση από το root directory!
+
+**Build Output**
+Το εκτελέσιμο αρχείο δημιουργείται στο root directory:
+graphics_project_2425/
+|--- graphics2425_opengl_project.exe (Windows)
+|--- graphics2425_opengl_project (Linux)
+|--- build/  (Φάκελος με temporary build αρχεία)
+
+** Υλοποίηση **
+main.cpp
+Χειρίζεται τη δημιουργία παραθύρου με GLFW, τη φόρτωση shaders και μοντέλων, τη διαχείριση της κάμερας και την κίνηση της σφαίρας. 
+Περιλαμβάνει Phong φωτισμό, ο οποίος υλοποιείται στο face-shader.fs
+Λειτουργίες
+Περιστροφή Σφαίρας: 
+"P" → Παύση
+"U" → Εκκίνηση
+"H" / "J" → Μείωση / Αύξηση ταχύτητας
+Χειρισμός Κάμερας:
+W, A, S, D → Κίνηση
+Ποντίκι → Περιστροφή
+Προβολή Μοντέλου: Το πρόσωπο φορτώνεται μέσω Assimp από αρχείο .obj , ενώ η σφαίρα δημιουργείται δυναμικά. 
+
+sphere.cpp
+Δημιουργία σφαίρας με χρήση τριγωνικών προσεγγίσεων.
+void Sphere::setupSphere()
+
+Αρχικοποιεί την GPU μνήμη με glGenBuffers() και glBufferData().
+Χειρίζεται το VAO και το VBO για τα vertices.
+Ρυθμίζει τα attribute pointers για θέση, κανονικοποιημένα διανύσματα και texture coordinates.
+void Sphere::Draw()
+
+Χρησιμοποιεί glDrawElements() για την απόδοση της σφαίρας.
+Ενεργοποιεί Wireframe Mode (glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)) όταν χρειάζεται.
+
+Όλα τα αρχεία και λειτουργίες έχουν βασιστεί στο LearnOpenGL και προσαρμοστεί για τις ανάγκες της εργασίας.
