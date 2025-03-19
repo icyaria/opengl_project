@@ -1,64 +1,74 @@
-Αυτό το πρόγραμμα υλοποιεί Phong φωτισμό σε ένα 3D περιβάλλον με χρήση OpenGL.
-Η σφαίρα φωτίζει το πρόσωπο δυναμικά καθώς περιστρέφεται, και ο χρήστης μπορεί να ελέγξει την κάμερα.
+This program implements Phong lighting in a 3D environment using OpenGL. The sphere dynamically lights up the face as it rotates, and the user can control the camera.
 
-Σε περίπτωση που υπάρξει πρόβλημα με το build, υπάρχει έτοιμο executable στον αντίστοιχο φάκελο.
+In case there is a build issue, an executable file is available in the corresponding folder.
 
-**Απαιτήσεις**
-Το project έχει υλοποιηθεί σε C++ και είναι απαραίτητα τα παρακάτω:
+**Requirements**  
+The project is implemented in C++ and requires the following:  
 - CMake (3.10+)
 - OpenGL
-- g++ ή MinGW (σε Windows)
+- g++ or MinGW (on Windows)
 
+**Build & Execution**
 
-**Build & Εκτέλεση**
+**Windows (MinGW)**  
+```
+mkdir -p build  
+cd build  
+cmake -G "MinGW Makefiles" -DCMAKE_C_COMPILER="C:/msys64/ucrt64/bin/gcc.exe" -DCMAKE_CXX_COMPILER="C:/msys64/ucrt64/bin/g++.exe" ..  
+cmake --build . --config Debug  
+cd ..  
+.\graphics2425_opengl_project.exe  # Run from the root directory!
+```
 
-**Windows (MinGW)**
-mkdir -p build
-cd build
-cmake -G "MinGW Makefiles" -DCMAKE_C_COMPILER="C:/msys64/ucrt64/bin/gcc.exe" -DCMAKE_CXX_COMPILER="C:/msys64/ucrt64/bin/g++.exe" ..
-cmake --build . --config Debug
-cd ..
-.\graphics2425_opengl_project.exe  # Εκτέλεση από το root directory!
+**Linux**  
+```
+mkdir -p build  
+cd build  
+cmake ..  
+make -j$(nproc)  
+cd ..  
+./graphics2425_opengl_project  # Run from the root directory!
+```
 
-**Linux**
-mkdir -p build
-cd build
-cmake ..
-make -j$(nproc)
-cd ..
-./graphics2425_opengl_project  # Εκτέλεση από το root directory!
-
-**Build Output**
-Το εκτελέσιμο αρχείο δημιουργείται στο root directory:
+**Build Output**  
+The executable file is created in the root directory:  
+```
 graphics_project_2425/
-|--- graphics2425_opengl_project.exe (Windows)
-|--- graphics2425_opengl_project (Linux)
-|--- build/  (Φάκελος με temporary build αρχεία)
+|--- graphics2425_opengl_project.exe (Windows)  
+|--- graphics2425_opengl_project (Linux)  
+|--- build/  (Folder with temporary build files)
+```
 
-** Υλοποίηση **
-main.cpp
-Χειρίζεται τη δημιουργία παραθύρου με GLFW, τη φόρτωση shaders και μοντέλων, τη διαχείριση της κάμερας και την κίνηση της σφαίρας. 
-Περιλαμβάνει Phong φωτισμό, ο οποίος υλοποιείται στο face-shader.fs
-Λειτουργίες
-Περιστροφή Σφαίρας: 
-"P" → Παύση
-"U" → Εκκίνηση
-"H" / "J" → Μείωση / Αύξηση ταχύτητας
-Χειρισμός Κάμερας:
-W, A, S, D → Κίνηση
-Ποντίκι → Περιστροφή
-Προβολή Μοντέλου: Το πρόσωπο φορτώνεται μέσω Assimp από αρχείο .obj , ενώ η σφαίρα δημιουργείται δυναμικά. 
+**Implementation**  
+**main.cpp**  
+Handles window creation with GLFW, shader and model loading, camera management, and sphere movement.  
+Includes Phong lighting, which is implemented in `face-shader.fs`.  
 
-sphere.cpp
-Δημιουργία σφαίρας με χρήση τριγωνικών προσεγγίσεων.
-void Sphere::setupSphere()
+**Functions**  
+Sphere Rotation:  
+- "P" → Pause  
+- "U" → Start  
+- "H" / "J" → Decrease / Increase speed  
 
-Αρχικοποιεί την GPU μνήμη με glGenBuffers() και glBufferData().
-Χειρίζεται το VAO και το VBO για τα vertices.
-Ρυθμίζει τα attribute pointers για θέση, κανονικοποιημένα διανύσματα και texture coordinates.
-void Sphere::Draw()
+Camera Handling:  
+- W, A, S, D → Movement  
+- Mouse → Rotation  
 
-Χρησιμοποιεί glDrawElements() για την απόδοση της σφαίρας.
-Ενεργοποιεί Wireframe Mode (glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)) όταν χρειάζεται.
+Model Display:  
+- The face is loaded from an `.obj` file using Assimp, while the sphere is created dynamically.  
 
-Όλα τα αρχεία και λειτουργίες έχουν βασιστεί στο LearnOpenGL.
+**sphere.cpp**  
+Creates the sphere using triangular approximations.  
+`void Sphere::setupSphere()`  
+- Initializes GPU memory with `glGenBuffers()` and `glBufferData()`.  
+- Manages VAO and VBO for the vertices.  
+- Sets attribute pointers for position, normalized vectors, and texture coordinates.  
+
+`void Sphere::Draw()`  
+- Uses `glDrawElements()` to render the sphere.  
+- Enables Wireframe Mode (`glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)`) when needed.
+
+All files and functions are based on LearnOpenGL.
+
+---
+
