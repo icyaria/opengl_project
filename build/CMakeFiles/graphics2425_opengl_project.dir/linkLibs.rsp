@@ -1,0 +1,1 @@
+  -LC:/Users/Maria/Desktop/uni/_11152~1/ASSIMP~3/lib  GLFW/src/libglfw3.a -lassimp -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 
